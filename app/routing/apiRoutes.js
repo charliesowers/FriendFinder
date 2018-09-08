@@ -23,13 +23,12 @@ router.post("/", function(req, res) {
         for(var j = 0; j<newScores.length; j++){
             score += Math.abs(newScores[j]-compScore[j]);
         }
-        console.log(score);
+        
         if(score < minScore || minScore === -1){
             minScore = score;
             minFriend = friends[i];
         }
-        console.log(minScore);
-        console.log(minFriend);
+        
     }
 
     friends.push(newFriend);

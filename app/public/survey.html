@@ -24,10 +24,10 @@
       <div class="col-12">
 
         <div class="card">
-          <div class="card-header">
+          <div class="card-header" id = 'header'>
             <h3><strong>Fill out some information first:</strong></h3>
           </div>
-          <div class="card-body">
+          <div class="card-body" id = 'main'>
             <form method="POST" role="form">
 
               <div class="form-group">
@@ -111,10 +111,12 @@
       var answers = [];
 
       for(var i = 1; i < 11; i++){
-          answers.push(parseInt($("#q" + i).val()));
+          var ans = parseInt($("#q" + i).val());
+          ans = ans < 0 ? 0 : (ans > 5 ? 5 : ans);
+          answers.push(ans);
       }
 
-      console.log(answers);
+      
 
       var newFriend = {
         name: $("#name").val().trim(),
@@ -124,7 +126,18 @@
       }
 
       $.post("/api/friends", newFriend).then(function(data) {
-        console.log("your new friend: " + JSON.stringify(data));
+        $("#main").empty();
+        $("#header").html('<h3><strong>Your New Friend:</strong></h3>');
+
+        $("#main").append(
+            $("<h2>").text(data.name)
+        )
+        .append(
+            $("<img>")
+            .attr("src", data.photo)
+            .attr("alt", "Image Couldn't Load")
+        )
+
       });
     });
   </script>
