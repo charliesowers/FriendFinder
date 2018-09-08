@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Friend Finder</title>
+  <!-- Latest compiled and minified CSS & JS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+
+  <div class="container">
+    <div class="jumbotron">
+      <h1>Friend Finder</h1>
+      <h3>Online survey for finding like minded individuals</h3>
+      <hr>
+      <a href="/"><button class="btn btn-danger btn-lg"><span class="fa fa-eye"></span> Home Page</button></a>
+    </div>
+    <div class="row">
+
+      <div class="col-12">
+
+        <div class="card">
+          <div class="card-header">
+            <h3><strong>Fill out some information first:</strong></h3>
+          </div>
+          <div class="card-body">
+            <form method="POST" role="form">
+
+              <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name">
+              </div>
+
+              <div class="form-group">
+                <label for="role">Image URL</label>
+                <input type="text" class="form-control" id="img-url">
+              </div>
+
+              <table class="table table-sm table-hover" id="survey-table" style="overflow-x:auto;">
+                <thead>
+                  <tr>
+                    <th scope="col">Question</th>
+                    <th scope="col">Rank (1 for strong No, 5 for strong Yes)</i></th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <tr>
+                    <th scope="col">Do you like Piña Coladas?</th>
+                    <th scope="col"><input class="form-control" id="q1" placeholder="1-5" type="number"></th>
+                  </tr>
+                  <tr>
+                    <th scope="col">Do you like getting caught in the rain?</th>
+                    <th scope="col"><input class="form-control" id="q2" placeholder="1-5" type="number"></th>
+                  </tr>
+                  <tr>
+                    <th scope="col">Are you into yoga?</th>
+                    <th scope="col"><input class="form-control" id="q3" placeholder="1-5" type="number"></th>
+                  </tr>
+                  <tr>
+                    <th scope="col">Do you enjoy long walks on the beach?</th>
+                    <th scope="col"><input class="form-control" id="q4" placeholder="1-5" type="number"></th>
+                  </tr>
+                  <tr>
+                    <th scope="col">Do you like jazz?</th>
+                    <th scope="col"><input class="form-control" id="q5" placeholder="1-5" type="number"></th>
+                  </tr>
+                  <tr>
+                    <th scope="col">Is pineapple a legitimate pizza ingredient?</th>
+                    <th scope="col"><input class="form-control" id="q6" placeholder="1-5" type="number"></th>
+                  </tr>
+                  <tr>
+                    <th scope="col">Is a hot dog a sandwich?</th>
+                    <th scope="col"><input class="form-control" id="q7" placeholder="1-5" type="number"></th>
+                  </tr>
+                  <tr>
+                    <th scope="col">Is cereal a soup?</th>
+                    <th scope="col"><input class="form-control" id="q8" placeholder="1-5" type="number"></th>
+                  </tr>
+                  <tr>
+                    <th scope="col">Are you Team Edward?</th>
+                    <th scope="col"><input class="form-control" id="q9" placeholder="1-5" type="number"></th>
+                  </tr>
+                  <tr>
+                    <th scope="col">Do you find clowns endearing and humorous?</th>
+                    <th scope="col"><input class="form-control" id="q10" placeholder="1-5" type="number"></th>
+                  </tr>
+                </tbody>
+              </table>
+
+            </form>
+            <br>
+            <div class="text-right">
+              <button type="submit" class="btn btn-primary btn-md" id="add-btn"><span class="fa fa-fire"></span>Find your Friend!</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    $("#add-btn").on("click", function(event) {
+      event.preventDefault();
+
+      var answers = [];
+
+      for(var i = 1; i < 11; i++){
+          answers.push(parseInt($("#q" + i).val()));
+      }
+
+      console.log(answers);
+
+      var newFriend = {
+        name: $("#name").val().trim(),
+        photo: $("#img-url").val().trim(),
+        scores: answers
+        
+      }
+
+      $.post("/api/friends", newFriend).then(function(data) {
+        console.log("your new friend: " + JSON.stringify(data));
+      });
+    });
+  </script>
+
+</body>
+</html>
