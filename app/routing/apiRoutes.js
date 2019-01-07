@@ -12,12 +12,19 @@ router.use(bodyParser.json());
 router.post("/", function(req, res) {
     var newFriend = req.body;
 
+    console.log(req.body);
+
+    for(var j = 0; j<newFriend.scores.length; j++){
+        newFriend.scores[j] = parseInt(newFriend.scores[j]);
+    }
+
     var newScores = newFriend.scores;
     
     var minScore = -1;
     var minFriend;
 
     for(var i = 0; i<friends.length; i++){
+        
         compScore =  friends[i].scores;
         var score = 0;
         for(var j = 0; j<newScores.length; j++){
@@ -30,6 +37,8 @@ router.post("/", function(req, res) {
         }
         
     }
+
+
 
     friends.push(newFriend);
   
